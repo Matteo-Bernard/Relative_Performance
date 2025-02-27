@@ -61,7 +61,7 @@ def alpha_jensen(asset, market, riskfree):
 
     return asset_return - (risk_free_return + asset_beta * (market_return - risk_free_return))
 
-def relative_performance(history, market, risk_free, window_alpha=25, window_beta=25, lookback_steps=[ 0,  2,  4,  6,  8, 10], show=True):
+def relative_performance(history, market, risk_free, window_alpha=25, window_beta=25, lookback_steps=[ 0,  2,  4,  6,  8, 10], show=True, figsize=(8, 8)):
     """
     Plots the relative performance of different assets based on Jensen's Alpha and Beta over varying lookback periods.
 
@@ -114,7 +114,7 @@ def relative_performance(history, market, risk_free, window_alpha=25, window_bet
             beta_df.at[ticker, lookback] = beta(hist_ticker_beta, hist_market_beta, way='all')
 
     # Tracé du graphique
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=figsize)
 
     scatter_handles = []
     for ticker in history:

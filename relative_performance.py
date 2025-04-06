@@ -152,3 +152,26 @@ def relative_performance(history, market, risk_free, window_alpha=25, window_bet
         plt.savefig(rp_file.name, format='png', bbox_inches='tight')
         plt.close()
         return rp_file
+    
+
+def beta_comps(asset, market):
+    """
+    Description:
+    Computes the beta of an asset relative to a market index over different periods and returns a DataFrame with the results.
+
+    Parameters:
+    - asset (pd.Series): Time series data representing the returns of the asset.
+    - market (pd.Series): Time series data representing the returns of the market.
+
+    Returns:
+    - pd.DataFrame: DataFrame containing beta values for different periods.
+    """
+    df = pd.DataFrame()
+    for sector in asset.columns:
+        data = asset[sector]
+        df.loc[sector, '1M - Downs'] = beta(data[-25:], market[-25:], '-')
+        df.loc[sector, '3M - Downs'] = beta(data[-75:], market[-75:], '-')
+        df.loc[sector, '1M - Ups'] = beta(data[-25:], market[-25:], '+')
+        df.loc[sector, '3M - Ups'] = beta(data[-75:], market[-75:], '+')
+
+    return df.sort_index()
